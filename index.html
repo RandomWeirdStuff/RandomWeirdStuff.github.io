@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data Fetch Example</title>
+</head>
+<body>
+    <div id="data"></div>
+
+    <script>
+        // Define the function to fetch data from the API
+        function fetchData() {
+            // URL of the API
+            const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+            // Use the Fetch API to get data from apiUrl
+            fetch(apiUrl)
+                .then(response => {
+                    // Check if the request was successful
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse JSON data from the response
+                })
+                .then(data => {
+                    // Handle the data
+                    const dataElement = document.getElementById('data');
+                    
+                    // Create a string to hold our HTML content
+                    let htmlContent = '';
+
+                    // Loop through the data and build the HTML content
+                    data.forEach(post => {
+                        htmlContent += `<div><h3>${post.title}</h3><p>${post.body}</p></div>`;
+                    });
+
+                    // Set the inner HTML of the dataElement to our htmlContent
+                    dataElement.innerHTML = htmlContent;
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the fetch
+                    console.error('There was a problem with your fetch operation:', error);
+                });
+        }
+
+        // Call the fetchData function when the window loads
+        window.onload = () => fetchData();
+    </script>
+</body>
+</html>
